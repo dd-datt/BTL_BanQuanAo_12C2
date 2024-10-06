@@ -1,0 +1,47 @@
+# Hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Các tệp log
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sản phẩm build
+dist/
+build/
+out/
+
+# Môi trường
+.env
+.env.local
+.env.*.local
+
+# Tệp IDE và trình soạn thảo
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Cache và tệp tạm thời
+.cache/
+tmp/
+
+# Tệp của các framework
+**/__pycache__/
+*.pyc
+vendor/
+composer.lock
+
+# Tệp cài đặt dự án
+package-lock.json
+yarn.lock
+
+# Các tệp liên quan đến Docker
+docker-compose.override.yml
+
+# Tệp của các trình duyệt
+coverage/
