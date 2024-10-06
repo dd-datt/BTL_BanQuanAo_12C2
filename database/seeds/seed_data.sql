@@ -1,0 +1,8 @@
+-- Ví dụ:
+-- INSERT INTO users (username, email, password) 
+-- VALUES 
+-- ('john_doe', 'john@example.com', 'hashed_password1'),
+-- ('jane_doe', 'jane@example.com', 'hashed_password2'),
+-- ('mike_smith', 'mike@example.com', 'hashed_password3'),
+-- ('susan_lee', 'susan@example.com', 'hashed_password4'),
+-- ('robert_jones', 'robert@example.com', 'hashed_password5');
