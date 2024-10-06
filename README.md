@@ -19,7 +19,7 @@ Bài tập lớn. Web bán quần áo. ĐH12C2.
 │   ├── /css              # Thư mục chứa các file CSS cho giao diện
 │   ├── /js               # Thư mục chứa các file JavaScript cho tương tác
 │   ├── /images           # Thư mục chứa các hình ảnh sử dụng trong ứng dụng
-│   └── index.php         # File khởi động chính của ứng dụng, nơi xử lý yêu cầu từ người dùng
+│
 │
 ├── /database
 │   ├── /migrations       # Chứa các tập lệnh tạo hoặc cập nhật cấu trúc bảng
