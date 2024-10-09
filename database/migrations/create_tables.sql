@@ -74,7 +74,6 @@ CREATE TABLE `sanpham` (
   `id_sp` int(11) NOT NULL,
   `tensp` varchar(255) NOT NULL,
   `motasp` text NOT NULL,
-  `giasp` float NOT NULL,
   `giagoc` float NOT NULL,
   `giakm` float,
   `anhsp` longblob DEFAULT NULL,
