@@ -5,7 +5,7 @@ function getDatabaseConnection()
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "BTL_WebBanQuanAo";
+    $dbname = "ql_banhang";
 
     // Tạo kết nối
     $conn = new mysqli($servername, $username, $password, $dbname);
