@@ -1,19 +1,8 @@
 <?php
-// db_connect.php   -> file kết nối đến CSDL
-function getDatabaseConnection()
-{
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "ql_banhang";
+// Kết nối database
+$conn = new mysqli("localhost", "root", "", "ql_banhang");
 
-    // Tạo kết nối
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Kiểm tra kết nối
-    if ($conn->connect_error) {
-        die("Kết nối thất bại: " . $conn->connect_error);
-    }
-
-    return $conn;
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
 }
