@@ -7,18 +7,13 @@ Bài tập lớn. Web bán quần áo. ĐH12C2.
 ```bash
 /BTL_BanQuanAo_12C2
 │
-├── /app
-│   ├── /controllers      # Chứa các file điều khiển (controller) cho ứng dụng
-│   ├── /models           # Chứa các mô hình (model) tương tác với cơ sở dữ liệu
-│   └── /views            # Chứa các file giao diện (view) hiển thị cho người dùng
-│
 ├── /config
-│   └── database.php      # File cấu hình kết nối tới cơ sở dữ liệu
+│   └── db_connect.php      # File cấu hình kết nối tới cơ sở dữ liệu
 │
 ├── /public
 │   ├── /css              # Thư mục chứa các file CSS cho giao diện
 │   ├── /js               # Thư mục chứa các file JavaScript cho tương tác
-│   ├── /images           # Thư mục chứa các hình ảnh sử dụng trong ứng dụng
+│   ├── /images              # Thư mục chứa các hình ảnh sử dụng trong ứng dụng
 │
 │
 ├── /database
