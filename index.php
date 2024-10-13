@@ -6,6 +6,7 @@
     <title>Trang chu</title>
 
     <!-- css của phần body -->
+    <link rel="stylesheet" href="public/css/mainkey.css">
     <link rel="stylesheet" href="public/css/body_index_2.css">
 
 </head>
@@ -40,7 +41,7 @@
                 </ul>
             </nav>
 
-            <form class="search-form" action="index_2.php" method="GET">
+            <form class="search-form" action="index.php" method="GET">
                 <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
                 <button type="submit">Tìm kiếm</button>
             </form>
@@ -73,7 +74,7 @@
                             $discountedPrice = $row["giagoc"] * (1 - $row["discount_percent"] / 100);
                         }
                         echo "<div class='product-card'>";
-                        echo "<a href='app/views/product_detail.php?id=" . $row["id_sp"] . "'>";
+                        echo "<a href='product_detail.php?id=" . $row["id_sp"] . "'>";
                         echo " <img src='" . $row['anhsp'] . "' alt='" . $row["tensp"] . "'>";
                         echo "<h3>" . $row["tensp"] . "</h3>";
                         echo "<p class='price'>" . number_format($discountedPrice, 0, ',', '.') . " VNĐ</p>";
