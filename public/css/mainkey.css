@@ -1,0 +1,29 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "SodoSan-regular";
+  src: url("public/fonts/SoDoSans-Regular.ttf") format("truetype"); /* Chỉ định định dạng ttf */
+  font-weight: normal; /* hoặc bold, nếu có */
+  font-style: normal; /* hoặc italic, nếu có */
+}
+
+:root {
+  --xanhLaDam: #006341;
+  --xanhLaNhat: #2a8a15;
+}
+
+html {
+  overflow-y: scroll;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: "SodoSan-regular", sans-serif;
+  font-size: 14px;
+  font-size: 1.4rem;
+  line-height: 1.71429;
+}
