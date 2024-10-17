@@ -147,3 +147,21 @@
     text-decoration: none;
   }
 }
+/* ------------------------- */
+/* Icon eyes into login */
+.password-container {
+  position: relative; /* Để định vị biểu tượng bên trong */
+}
+
+.form-input {
+  padding-right: 40px; /* Tạo không gian cho biểu tượng */
+}
+
+#togglePassword {
+  position: absolute;
+  right: 10px; /* Đặt biểu tượng cách cạnh phải ô nhập liệu */
+  top: 58%;
+  transform: translateY(-50%); /* Canh giữa biểu tượng theo chiều dọc */
+  pointer-events: auto; /* Đảm bảo biểu tượng có thể nhấp được */
+  
+}

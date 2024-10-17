@@ -1,32 +1,133 @@
-<html lang="en">
+   <?php
+   session_start(); // Khởi động session
+   ob_start();
+//    Kết nối database
+    include __DIR__ . '/config/db_connect.php';
+    include 'model/user.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chu</title>
+    if (isset($_GET['act'])) {
+        switch ($_GET['act']) {
+            case 'sigin': // sigin là tên action của form dangky
+                if (isset($_POST['sigin'])) {
+                    // Lấy dữ liệu từ form đăng ký
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
+                    $email = $_POST['email'];
 
-    <!-- css của phần body -->
-    <link rel="stylesheet" href="public/css/mainkey.css">
-    <link rel="stylesheet" href="public/css/body_index_2.css">
+                    // Kiểm tra xem người dùng đã tồn tại chưa
+                    $existingUser = checkUserExist($conn, $username, $email);
+                    if ($existingUser) {
+                        // Nếu người dùng đã tồn tại, báo lỗi
+                        echo "<p style='color:red;'>Username or email already exists.</p>";
+                    } else {
+                        // Nếu không tồn tại, tiếp tục xử lý đăng ký
+                        $result = createUser($conn, $username, $password, $email);
+                        if ($result) {
+                            // Đăng ký thành công, lưu thông tin vào session
+                            $_SESSION['username'] = $username;
+                            $_SESSION['role'] = 0; // Đặt role mặc định là 0 cho người dùng mới (customer)
+                            $_SESSION['avatar'] = 'view/images/avatar_default.jpg'; // Ảnh mặc định
 
-</head>
+                            // Chuyển hướng đến trang chính sau khi đăng ký thành công
+                            header("Location: dangnhap.php");
+                            exit();
+                        } else {
+                            // Nếu có lỗi trong quá trình tạo người dùng
+                            echo "<p style='color:red;'>Registration failed. Please try again.</p>";
+                        }
+                    }
+                }
+                break;
 
-<body>
+            case 'login':// tương tự sigin - của form dangnhap
+                if (isset($_POST['login'])) {
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
 
-    <?php include 'header.php' ?>
+                    $userInfo = getUserinfo($conn, $username);
+                    if ($userInfo) {
+                        // Kiểm tra xem mật khẩu có phải đã mã hóa hay không
+                        if (password_verify($password, $userInfo[0]['password'])) {
+                            // Mật khẩu đã mã hóa
+                            $role = (int)$userInfo[0]['role'];
+                            $_SESSION['role'] = $role;
+                            $_SESSION['iduser'] = $userInfo[0]['id'];
+                            $_SESSION['username'] = $userInfo[0]['username'];
+                            $_SESSION['email'] = $userInfo[0]['email'];
+
+                            // Lưu đường dẫn ảnh vào session
+                            $_SESSION['avatar'] = !empty($userInfo[0]['avatar']) ? $userInfo[0]['avatar'] : 'view/images/avatar_default.jpg';
+
+                            // Chuyển hướng dựa trên vai trò
+                            if ($role === 1) { // Nếu role = 1, vào trang admin
+                                header("Location: admin/index.php");
+                            } elseif ($role === 0) { // Nếu role = 0, vào trang customer
+                                header("Location: index.php");
+                            } else {
+                                echo "<p style='color:red;'>Invalid user role: " . htmlspecialchars($role) . "</p>";
+                            }
+                            exit();
+                        } else {
+                            // Nếu không mã hóa mật khẩu, so sánh trực tiếp
+                            if ($password === $userInfo[0]['password']) {
+                                // Mật khẩu không được mã hóa
+                                $role = (int)$userInfo[0]['role'];
+                                $_SESSION['role'] = $role;
+                                $_SESSION['iduser'] = $userInfo[0]['id'];
+                                $_SESSION['username'] = $userInfo[0]['username'];
+                                $_SESSION['email'] = $userInfo[0]['email'];
 
 
-    <!-- Phần body -->
+                                // Lưu đường dẫn ảnh vào session
+                                $_SESSION['avatar'] = !empty($userInfo[0]['avatar']) ? $userInfo[0]['avatar'] : 'view/images/avatar_default.jpg';
 
-    <body>
-        <div class="container">
-            <nav>
-                <ul>
-                    <li><a href="index.php?category=all">Tất cả danh mục</a></li>
-                    <?php
+                                // Chuyển hướng dựa trên vai trò
+                                if ($role === 1) { // Nếu role = 1, vào trang admin
+                                    header("Location: admin/index.php");
+                                } elseif ($role === 0) { // Nếu role = 0, vào trang customer
+                                    header("Location: index.php");
+                                } else {
+                                    echo "<p style='color:red;'>Invalid user role: " . htmlspecialchars($role) . "</p>";
+                                }
+                                exit();
+                            } else {
+                                echo "<p style='color:red;'>Invalid username or password.</p>";
+                                header("Location: dangnhap.php");//// đăng nhập thất bại
+                            }
+                        }
+                    } else {
+                        echo "<p style='color:red;'>Invalid username or password.</p>";
+                        header("Location: dangnhap.php");// đăng nhập thất bại
+                    }
+                }
+                break;
+
+            
+
+            case 'logout':// Đăng xuất không cần dùng form gắn vào href "index.php?act=logout"
+                session_unset(); // Xóa tất cả các biến session
+                session_destroy(); // Hủy session
+                header('Location: index.php');// Chuyển hướng về trang chủ
+                exit(); // Dừng script
+        }
+    }
+
+
+    include 'view/header.php';
+
+    ?>
+<!-- ----------------------------------------------------------------------------------------------------->
+
+   <!-- Phần body -->
+
+   <body>
+       <div class="container" style="min-height: 80vh;">
+           <nav>
+               <ul>
+                   <li><a href="index.php?category=all">Tất cả danh mục</a></li>
+                   <?php
 
                     // kết nối db
-                    include __DIR__ . '/config/db_connect.php';
 
                     // Lấy danh sách danh mục
                     $sql = "SELECT * FROM danhmucsp";
@@ -38,16 +139,16 @@
                         }
                     }
                     ?>
-                </ul>
-            </nav>
+               </ul>
+           </nav>
 
-            <form class="search-form" action="index.php" method="GET">
-                <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
-                <button type="submit">Tìm kiếm</button>
-            </form>
+           <form class="search-form" action="index.php" method="GET">
+               <input type="text" name="search" placeholder="Tìm kiếm sản phẩm...">
+               <button type="submit">Tìm kiếm</button>
+           </form>
 
-            <div class="product-grid">
-                <?php
+           <div class="product-grid">
+               <?php
                 // Xử lý lọc sản phẩm theo danh mục hoặc tìm kiếm
                 $where = "";
                 if (isset($_GET['category']) && $_GET['category'] != 'all') {
@@ -91,12 +192,12 @@
 
                 $conn->close();
                 ?>
-            </div>
-        </div>
-    </body>
+           </div>
+       </div>
+   </body>
 
 
-    <?php include 'footer.php' ?>
-</body>
+   <?php include 'view/footer.php' ?>
+   </body>
 
-</html>
+   </html>
