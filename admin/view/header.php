@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -30,13 +31,26 @@
                     </a>
                     <?php
                      if (isset($_SESSION['username']) && ($_SESSION['username'] != "")) {
-                               
-                        echo'
-                         <img src="data:image/jpeg;base64,' . base64_encode($_SESSION['avatar']) . '" alt="Profile Picture" id="avatar">                                            
-                         <span id="user-name">' . $_SESSION['username'] . '</span>';
+                        // avatar and username
+                        if (isset($_SESSION['avatar']) && !empty($_SESSION['avatar'])) {
+                            if (base64_encode(base64_decode($_SESSION['avatar'], true)) === $_SESSION['avatar']) {
+                                // Hiển thị ảnh đại diện từ dữ liệu base64 người dùng thêm từ ngoài
+                                echo '<img src="data:image/jpeg;base64,' . $_SESSION['avatar'] . '" alt="Profile Picture" id="avatar">';
+                            } else {
+                                // Hiển thị ảnh đại diện từ đường dẫn khi chèn trong xampp
+                                echo '<img src="data:image/jpeg;base64,' . base64_encode($_SESSION['avatar']) . '" alt="Profile Picture"  id="avatar">';
+                            }
+                        } else {
+                            // Hiển thị ảnh mặc định nếu không có avatar
+                            echo '<img src="view/images/avatar_default.jpg" alt="Default Profile Picture" id="avatar">';
+                        }
+                        // username
+                          echo'<span id="user-name">' . $_SESSION['username'] . '</span>';
                      }
-                    
+                     
+                     
                     ?>  
+                    
 
                     
                 </div>
